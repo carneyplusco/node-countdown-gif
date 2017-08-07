@@ -4,7 +4,14 @@ const fs = require('fs');
 const path = require('path');
 const GIFEncoder = require('gifencoder');
 const Canvas = require('canvas');
+const Font = Canvas.Font;
 const moment = require('moment');
+
+function fontFile(name) {
+  return path.join(__dirname, '../public', name);
+}
+
+var quicksand = new Font('quicksand', fontFile('Quicksand-Regular.otf'));
 
 module.exports = {
     /**
@@ -22,7 +29,7 @@ module.exports = {
         // Set some sensible upper / lower bounds
         this.width = this.clamp(width, 150, 500);
         this.height = this.clamp(height, 150, 500);
-        this.frames = this.clamp(frames, 1, 90);
+        this.frames = this.clamp(frames, 1, 120);
         
         this.bg = '#' + bg;
         this.textColor = '#' + color;
@@ -35,7 +42,7 @@ module.exports = {
         this.encoder = new GIFEncoder(this.width, this.height);
         this.canvas = new Canvas(this.width, this.height);
         this.ctx = this.canvas.getContext('2d');
-        
+
         // calculate the time difference (if any)
         let timeResult = this.time(time);
         
@@ -132,15 +139,18 @@ module.exports = {
                 seconds = (seconds.toString().length == 1) ? '0' + seconds : seconds;
                 
                 // build the date string
-                let string = [days, 'd ', hours, 'h ', minutes, 'm ', seconds, 's'].join('');
-                
+                let string = `${hours}:${minutes}:${seconds}`;
+
                 // paint BG
                 ctx.fillStyle = this.bg;
                 ctx.fillRect(0, 0, this.width, this.height);
                 
                 // paint text
+                ctx.addFont(quicksand);
+                ctx.font = '120px quicksand';
                 ctx.fillStyle = this.textColor;
-                ctx.fillText(string, this.halfWidth, this.halfHeight);
+                ctx.textAlign = 'start';
+                ctx.fillText(string, 0, this.halfHeight);
                 
                 // add finalised frame to the gif
                 enc.addFrame(ctx);
