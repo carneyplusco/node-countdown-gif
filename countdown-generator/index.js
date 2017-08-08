@@ -28,7 +28,7 @@ module.exports = {
         // Set some sensible upper / lower bounds
         this.width = this.clamp(width, 150, 1000);
         this.height = this.clamp(height, 150, 1000);
-        this.frames = this.clamp(frames, 1, 120);
+        this.frames = this.clamp(frames, 60, 120);
         
         this.bg = '#' + bg;
         this.textColor = '#' + color;
