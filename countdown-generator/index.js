@@ -45,6 +45,7 @@ module.exports = {
 
         // calculate the time difference (if any)
         let timeResult = this.time(time);
+        // console.log((timeResult.days() * 24) + timeResult.hours(), timeResult.minutes(), timeResult.seconds());
         
         // start the gif encoder
         this.encode(timeResult, cb);
@@ -128,9 +129,10 @@ module.exports = {
             for(let i = 0; i < this.frames; i++){
                 // extract the information we need from the duration
                 let days = Math.floor(timeResult.asDays());
-                let hours = Math.floor(timeResult.asHours() - (days * 24));
-                let minutes = Math.floor(timeResult.asMinutes()) - (days * 24 * 60) - (hours * 60);
-                let seconds = Math.floor(timeResult.asSeconds()) - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
+                let hours = (timeResult.days() * 24) + timeResult.hours();
+                hours += 4; // add timezone hours
+                let minutes = timeResult.minutes();
+                let seconds = timeResult.seconds();
                 
                 // make sure we have at least 2 characters in the string
                 days = (days.toString().length == 1) ? '0' + days : days;
