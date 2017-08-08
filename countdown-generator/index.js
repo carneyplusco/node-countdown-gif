@@ -129,7 +129,7 @@ module.exports = {
                 // extract the information we need from the duration
                 let days = Math.floor(timeResult.asDays());
                 let hours = (timeResult.days() * 24) + timeResult.hours();
-                hours += 4; // add timezone hours
+                hours += 16; // add timezone and event hours
                 let minutes = timeResult.minutes();
                 let seconds = timeResult.seconds();
                 
