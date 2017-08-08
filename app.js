@@ -4,6 +4,8 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const fs = require('fs');
+const moment = require('moment');
 
 const tmpDir = __dirname + '/tmp/';
 const publicDir = __dirname + '/public/';
@@ -37,14 +39,25 @@ app.get('/generate', function (req, res) {
 app.get('/serve', function (req, res) {
     let {time, width, height, color, bg, name, frames} = req.query;
 
-    if(!time){
+    if(!time) {
         throw Error('Time parameter is required.');
     }
 
-    CountdownGenerator.init(time, width, height, color, bg, name, frames, () => {
-        let filePath = tmpDir + name + '.gif';
+    const filePath = `${tmpDir}${name}.gif`;
+
+    const stats = fs.statSync(filePath);
+    const mtime = moment(stats.mtime);
+    const diff = moment().diff(mtime) / 1000;
+
+    // only generate a new image every minute or so...
+    if(diff < 60) {
         res.sendFile(filePath);
-    });
+    }
+    else {
+        CountdownGenerator.init(time, width, height, color, bg, name, frames, () => {
+            res.sendFile(filePath);
+        });
+    }
 });
 
 app.listen(process.env.PORT || 4000, function(){
