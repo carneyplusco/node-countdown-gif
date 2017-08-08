@@ -4,14 +4,13 @@ const fs = require('fs');
 const path = require('path');
 const GIFEncoder = require('gifencoder');
 const Canvas = require('canvas');
-const Font = Canvas.Font;
 const moment = require('moment');
 
 function fontFile(name) {
   return path.join(__dirname, '../public', name);
 }
 
-var quicksand = new Font('quicksand', fontFile('Quicksand-Regular.otf'));
+Canvas.registerFont(fontFile('Quicksand-Regular.otf'), {family: 'Quicksand'});
 
 module.exports = {
     /**
@@ -148,7 +147,6 @@ module.exports = {
                 ctx.fillRect(0, 0, this.width, this.height);
                 
                 // paint text
-                ctx.addFont(quicksand);
                 ctx.font = '120px quicksand';
                 ctx.fillStyle = this.textColor;
                 ctx.textAlign = 'start';
