@@ -45,9 +45,15 @@ app.get('/serve', function (req, res) {
 
     const filePath = `${tmpDir}${name}.gif`;
 
-    const stats = fs.statSync(filePath);
-    const mtime = moment(stats.mtime);
-    const diff = moment().diff(mtime) / 1000;
+    let diff = 0;
+    try {
+        const stats = fs.statSync(filePath);
+        const mtime = moment(stats.mtime);
+        diff = moment().diff(mtime) / 1000;
+    }
+    catch(err) {
+        diff = 1000;
+    }
 
     // only generate a new image every minute or so...
     if(diff < 60) {

@@ -75,7 +75,7 @@ module.exports = {
         
         // either the date has passed, or we have a difference
         if(difference <= 0){
-            return 'Date has passed!';
+            return "Time's up!";
         } else {
             // duration of the difference
             return moment.duration(difference);
@@ -166,6 +166,7 @@ module.exports = {
             ctx.fillRect(0, 0, this.width, this.height);
             
             // Text
+            ctx.font = '60px quicksand';
             ctx.fillStyle = this.textColor;
             ctx.fillText(timeResult, this.halfWidth, this.halfHeight);
             enc.addFrame(ctx);
