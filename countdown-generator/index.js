@@ -10,7 +10,10 @@ function fontFile(name) {
   return path.join(__dirname, '../public', name);
 }
 
-Canvas.registerFont(fontFile('Quicksand-Regular.otf'), {family: 'Quicksand'});
+const font_filename = 'ave-book.ttf';
+const font_name = 'Avenir';
+
+Canvas.registerFont(fontFile(font_filename), {family: font_name});
 
 module.exports = {
     /**
@@ -129,7 +132,7 @@ module.exports = {
                 // extract the information we need from the duration
                 let days = Math.floor(timeResult.asDays());
                 let hours = (timeResult.days() * 24) + timeResult.hours();
-                hours += 16; // add timezone and event hours
+                // hours += 16; // add timezone and event hours
                 let minutes = timeResult.minutes();
                 let seconds = timeResult.seconds();
                 
@@ -147,7 +150,7 @@ module.exports = {
                 ctx.fillRect(0, 0, this.width, this.height);
                 
                 // paint text
-                ctx.font = '120px quicksand';
+                ctx.font = `120px ${font_name}`;
                 ctx.fillStyle = this.textColor;
                 ctx.textAlign = 'start';
                 ctx.fillText(string, 0, this.halfHeight);
@@ -166,7 +169,7 @@ module.exports = {
             ctx.fillRect(0, 0, this.width, this.height);
             
             // Text
-            ctx.font = '60px quicksand';
+            ctx.font = `60px ${font_name}`;
             ctx.fillStyle = this.textColor;
             ctx.fillText(timeResult, this.halfWidth, this.halfHeight);
             enc.addFrame(ctx);
